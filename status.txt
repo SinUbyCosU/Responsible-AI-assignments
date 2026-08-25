@@ -1,0 +1,28 @@
+TMUX LOGS:
+.gz
+Downloading https://ossci-datasets.s3.amazonaws.com/mnist/t10k-labels-idx1-ubyte
+.gz to ./mnist_data/MNIST/raw/t10k-labels-idx1-ubyte.gz
+100%|██████████████████████████████████████| 4.54k/4.54k [00:00<00:00, 14.6MB/s]
+Extracting ./mnist_data/MNIST/raw/t10k-labels-idx1-ubyte.gz to ./mnist_data/MNIS
+T/raw
+
+
+Building colored datasets (assigns colors once, then caches them)...
+
+============================================================
+Training CNN on COLOR-BIASED data (bias=0.9)...
+  Epoch 1/5  loss=0.2921
+  Epoch 2/5  loss=0.0654
+  Epoch 3/5  loss=0.0451
+  Epoch 4/5  loss=0.0327
+  Epoch 5/5  loss=0.0261
+
+Training ViT on COLOR-BIASED data (bias=0.9)...
+/usr/local/lib/python3.12/dist-packages/torch/nn/modules/transformer.py:379: Use
+rWarning: enable_nested_tensor is True, but self.use_nested_tensor is False beca
+use encoder_layer.norm_first was True
+  warnings.warn(
+
+GPU:
+29 %, 220 MiB
+0 %, 1 MiB

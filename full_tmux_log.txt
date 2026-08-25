@@ -1,0 +1,445 @@
+Starting Q2
+Device: cuda
+Files already downloaded and verified
+/usr/local/lib/python3.12/dist-packages/torchvision/datasets/cifar.py:83: Visibl
+eDeprecationWarning: dtype(): align should be passed as Python or NumPy boolean
+but got `align=0`. Did you mean to pass a tuple to create a subarray type? (Depr
+ecated NumPy 2.4)
+  entry = pickle.load(f, encoding="latin1")
+Files already downloaded and verified
+
+Building datasets (filtering cats/dogs, compositing backgrounds)...
+  Train: 10000 samples | IID test: 2000 | Balanced: 2000 | Counterfactual: 2000
+
+============================================================
+Training CNN (from scratch) on biased training data...
+  Epoch 1/12  loss=0.4339  acc=88.7%
+  Epoch 2/12  loss=0.3282  acc=90.2%
+  Epoch 3/12  loss=0.3185  acc=90.2%
+  Epoch 4/12  loss=0.3108  acc=90.2%
+  Epoch 5/12  loss=0.3004  acc=90.4%
+  Epoch 6/12  loss=0.2862  acc=90.4%
+  Epoch 7/12  loss=0.2710  acc=90.7%
+  Epoch 8/12  loss=0.2633  acc=90.8%
+  Epoch 9/12  loss=0.2525  acc=91.0%
+  Epoch 10/12  loss=0.2353  acc=91.4%
+  Epoch 11/12  loss=0.2289  acc=91.6%
+  Epoch 12/12  loss=0.2204  acc=91.9%
+
+Fine-tuning ResNet18 (pretrained ImageNet) on biased training data...
+  Epoch 1/6  loss=0.2812  acc=90.0%
+  Epoch 2/6  loss=0.1908  acc=92.6%
+  Epoch 3/6  loss=0.1502  acc=94.1%
+  Epoch 4/6  loss=0.1105  acc=95.9%
+  Epoch 5/6  loss=0.0797  acc=96.8%
+  Epoch 6/6  loss=0.0552  acc=97.8%
+
+============================================================
+EVALUATION RESULTS
+============================================================
+
+  [CNN] on [IID]
+  Overall accuracy: 91.1%
+  Per-group breakdown:
+    green-cat   : 99.0%
+    blue-cat    : 12.4%
+    green-dog   : 19.5%
+    blue-dog    : 99.3%
+  Confusion matrix (rows=true, cols=predicted):
+            Pred:cat  Pred:dog
+  True:cat      899       101
+  True:dog       76       924
+  Generating Grad-CAM visualizations...
+    Saved: ./q2_gradcam/CNN_IID.png
+
+  [CNN] on [Balanced]
+  Overall accuracy: 58.9%
+  Per-group breakdown:
+    green-cat   : 99.6%
+    blue-cat    : 13.6%
+    green-dog   : 23.0%
+    blue-dog    : 99.2%
+  Confusion matrix (rows=true, cols=predicted):
+            Pred:cat  Pred:dog
+  True:cat      565       435
+  True:dog      388       612
+  Generating Grad-CAM visualizations...
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floa
+ts or [0..255] for integers). Got range [0.06470587849617004..1.000000011920929]
+.
+    Saved: ./q2_gradcam/CNN_Balanced.png
+
+  [CNN] on [Counterfactual]
+  Overall accuracy: 28.1%
+  Per-group breakdown:
+    green-cat   : 100.0%
+    blue-cat    : 16.5%
+    green-dog   : 24.6%
+    blue-dog    : 99.0%
+  Confusion matrix (rows=true, cols=predicted):
+            Pred:cat  Pred:dog
+  True:cat      241       759
+  True:dog      678       322
+  Generating Grad-CAM visualizations...
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floa
+ts or [0..255] for integers). Got range [0.0..1.000000011920929].
+    Saved: ./q2_gradcam/CNN_Counterfactual.png
+
+  [ResNet18] on [IID]
+  Overall accuracy: 91.6%
+  Per-group breakdown:
+    green-cat   : 97.8%
+    blue-cat    : 24.8%
+    green-dog   : 42.5%
+    blue-dog    : 98.0%
+  Confusion matrix (rows=true, cols=predicted):
+            Pred:cat  Pred:dog
+  True:cat      901        99
+  True:dog       68       932
+  Generating Grad-CAM visualizations...
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floa
+ts or [0..255] for integers). Got range [0.07333332300186157..1.000000011920929]
+.
+    Saved: ./q2_gradcam/ResNet18_IID.png
+
+  [ResNet18] on [Balanced]
+  Overall accuracy: 66.1%
+  Per-group breakdown:
+    green-cat   : 98.2%
+    blue-cat    : 27.1%
+    green-dog   : 41.1%
+    blue-dog    : 98.2%
+  Confusion matrix (rows=true, cols=predicted):
+            Pred:cat  Pred:dog
+  True:cat      626       374
+  True:dog      303       697
+  Generating Grad-CAM visualizations...
+    Saved: ./q2_gradcam/ResNet18_Balanced.png
+
+  [ResNet18] on [Counterfactual]
+  Overall accuracy: 39.8%
+  Per-group breakdown:
+    green-cat   : 96.7%
+    blue-cat    : 26.4%
+    green-dog   : 40.6%
+    blue-dog    : 100.0%
+  Confusion matrix (rows=true, cols=predicted):
+            Pred:cat  Pred:dog
+  True:cat      328       672
+  True:dog      533       467
+  Generating Grad-CAM visualizations...
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floa
+ts or [0..255] for integers). Got range [2.9373168786150927e-08..1.0000000119209
+29].
+    Saved: ./q2_gradcam/ResNet18_Counterfactual.png
+
+===========================================================================
+FINAL SUMMARY TABLE
+===========================================================================
+Model        Test Set             Acc   gr-cat  bl-cat  gr-dog  bl-dog
+--------------------------------------------------------------------
+CNN          IID               91.1%   99.0%  12.4%  19.5%  99.3%
+CNN          Balanced          58.9%   99.6%  13.6%  23.0%  99.2%
+CNN          Counterfactual    28.1%  100.0%  16.5%  24.6%  99.0%
+ResNet18     IID               91.6%   97.8%  24.8%  42.5%  98.0%
+ResNet18     Balanced          66.1%   98.2%  27.1%  41.1%  98.2%
+ResNet18     Counterfactual    39.8%   96.7%  26.4%  40.6% 100.0%
+
+===========================================================================
+INTERPRETATION
+===========================================================================
+
+  CNN:
+    IID=91.1%  Balanced=58.9%  Counterfactual=28.1%
+    Accuracy drop (IID -> Counterfactual): 63.0%
+    Verdict: HEAVY background reliance (shortcut learner). Model likely ignores
+the animal and uses border color. Per-group gap (99% vs 12% on IID) confirms bg-
+color usage.
+
+  ResNet18:
+    IID=91.6%  Balanced=66.1%  Counterfactual=39.8%
+    Accuracy drop (IID -> Counterfactual): 51.9%
+    Verdict: HEAVY background reliance (shortcut learner). Model likely ignores
+the animal and uses border color. Per-group gap (98% vs 25% on IID) confirms bg-
+color usage.
+
+Grad-CAM images saved to: /root/resp_assignment/q2_gradcam/
+Done!
+Starting Q3
+Device: cuda
+Imbalance ratio: 5000/25 = 200:1
+
+Loading CIFAR-10 and building long-tailed training set...
+Files already downloaded and verified
+/usr/local/lib/python3.12/dist-packages/torchvision/datasets/cifar.py:83: Visibl
+eDeprecationWarning: dtype(): align should be passed as Python or NumPy boolean
+but got `align=0`. Did you mean to pass a tuple to create a subarray type? (Depr
+ecated NumPy 2.4)
+  entry = pickle.load(f, encoding="latin1")
+Files already downloaded and verified
+  Train: 9575 samples (imbalanced)
+  Test : 7000 samples (balanced, 1000/class)
+
+============================================================
+Run: Baseline (CE)
+
+  Training CNN...
+  Epoch  1/15  loss=0.8515  train_acc=69.8%
+  Epoch  2/15  loss=0.5642  train_acc=80.1%
+  Epoch  3/15  loss=0.4770  train_acc=83.4%
+  Epoch  4/15  loss=0.4079  train_acc=86.0%
+  Epoch  5/15  loss=0.3569  train_acc=87.3%
+  Epoch  6/15  loss=0.3241  train_acc=88.9%
+  Epoch  7/15  loss=0.2887  train_acc=90.0%
+  Epoch  8/15  loss=0.2303  train_acc=92.0%
+  Epoch  9/15  loss=0.2121  train_acc=92.0%
+  Epoch 10/15  loss=0.1893  train_acc=93.5%
+  Epoch 11/15  loss=0.1494  train_acc=94.7%
+  Epoch 12/15  loss=0.1228  train_acc=95.7%
+  Epoch 13/15  loss=0.1279  train_acc=95.4%
+  Epoch 14/15  loss=0.0965  train_acc=96.9%
+  Epoch 15/15  loss=0.0744  train_acc=97.4%
+  Evaluating CNN...
+  Balanced=53.8%  Worst-class=3.6%  Overall=53.8%
+
+  Training ViT...
+/usr/local/lib/python3.12/dist-packages/torch/nn/modules/transformer.py:379: Use
+rWarning: enable_nested_tensor is True, but self.use_nested_tensor is False beca
+use encoder_layer.norm_first was True
+  warnings.warn(
+  Epoch  1/15  loss=0.9895  train_acc=63.4%
+  Epoch  2/15  loss=0.7979  train_acc=71.3%
+  Epoch  3/15  loss=0.7341  train_acc=73.4%
+  Epoch  4/15  loss=0.6629  train_acc=76.4%
+  Epoch  5/15  loss=0.6325  train_acc=77.3%
+  Epoch  6/15  loss=0.6110  train_acc=78.6%
+  Epoch  7/15  loss=0.5791  train_acc=79.5%
+  Epoch  8/15  loss=0.5476  train_acc=80.9%
+  Epoch  9/15  loss=0.5154  train_acc=81.8%
+  Epoch 10/15  loss=0.5081  train_acc=82.0%
+  Epoch 11/15  loss=0.4798  train_acc=83.0%
+  Epoch 12/15  loss=0.4683  train_acc=83.8%
+  Epoch 13/15  loss=0.4423  train_acc=84.1%
+  Epoch 14/15  loss=0.4258  train_acc=84.9%
+  Epoch 15/15  loss=0.4111  train_acc=85.6%
+  Evaluating ViT...
+  Balanced=43.6%  Worst-class=0.1%  Overall=43.6%
+
+============================================================
+Run: Weighted CE
+
+  Training CNN...
+  Epoch  1/15  loss=1.7040  train_acc=51.0%
+  Epoch  2/15  loss=1.3914  train_acc=61.2%
+  Epoch  3/15  loss=1.2727  train_acc=64.4%
+  Epoch  4/15  loss=1.1525  train_acc=66.8%
+  Epoch  5/15  loss=1.0515  train_acc=67.8%
+  Epoch  6/15  loss=0.9647  train_acc=69.7%
+  Epoch  7/15  loss=0.9321  train_acc=71.3%
+  Epoch  8/15  loss=0.7196  train_acc=74.6%
+  Epoch  9/15  loss=0.6316  train_acc=77.0%
+  Epoch 10/15  loss=0.5370  train_acc=79.0%
+  Epoch 11/15  loss=0.5314  train_acc=79.6%
+  Epoch 12/15  loss=0.5262  train_acc=79.1%
+  Epoch 13/15  loss=0.3962  train_acc=83.5%
+  Epoch 14/15  loss=0.3417  train_acc=84.6%
+  Epoch 15/15  loss=0.3178  train_acc=85.2%
+  Evaluating CNN...
+  Balanced=53.2%  Worst-class=5.2%  Overall=53.2%
+
+  Training ViT...
+  Epoch  1/15  loss=1.8528  train_acc=45.9%
+  Epoch  2/15  loss=1.7087  train_acc=49.8%
+  Epoch  3/15  loss=1.5916  train_acc=53.6%
+  Epoch  4/15  loss=1.5347  train_acc=54.2%
+  Epoch  5/15  loss=1.4749  train_acc=56.1%
+  Epoch  6/15  loss=1.3981  train_acc=57.6%
+  Epoch  7/15  loss=1.4120  train_acc=57.2%
+  Epoch  8/15  loss=1.2988  train_acc=59.3%
+  Epoch  9/15  loss=1.1917  train_acc=60.7%
+  Epoch 10/15  loss=1.1823  train_acc=61.2%
+  Epoch 11/15  loss=1.0735  train_acc=63.3%
+  Epoch 12/15  loss=1.0865  train_acc=61.8%
+  Epoch 13/15  loss=1.0069  train_acc=62.6%
+  Epoch 14/15  loss=0.9857  train_acc=63.6%
+  Epoch 15/15  loss=0.9311  train_acc=65.3%
+  Evaluating ViT...
+  Balanced=43.4%  Worst-class=11.5%  Overall=43.4%
+
+============================================================
+Run: Oversampling
+
+  Training CNN...
+  Epoch  1/15  loss=1.0579  train_acc=60.5%
+  Epoch  2/15  loss=0.4913  train_acc=81.8%
+  Epoch  3/15  loss=0.3330  train_acc=88.5%
+  Epoch  4/15  loss=0.2456  train_acc=91.7%
+  Epoch  5/15  loss=0.2092  train_acc=92.9%
+  Epoch  6/15  loss=0.1586  train_acc=94.6%
+  Epoch  7/15  loss=0.1510  train_acc=94.9%
+  Epoch  8/15  loss=0.1170  train_acc=95.8%
+  Epoch  9/15  loss=0.0971  train_acc=96.8%
+  Epoch 10/15  loss=0.0854  train_acc=97.1%
+  Epoch 11/15  loss=0.0900  train_acc=96.9%
+  Epoch 12/15  loss=0.0799  train_acc=97.3%
+  Epoch 13/15  loss=0.0700  train_acc=97.7%
+  Epoch 14/15  loss=0.0655  train_acc=97.8%
+  Epoch 15/15  loss=0.0577  train_acc=98.2%
+  Evaluating CNN...
+  Balanced=49.7%  Worst-class=2.4%  Overall=49.7%
+
+  Training ViT...
+  Epoch  1/15  loss=1.5370  train_acc=40.2%
+  Epoch  2/15  loss=1.0266  train_acc=60.8%
+  Epoch  3/15  loss=0.8301  train_acc=68.2%
+  Epoch  4/15  loss=0.7435  train_acc=71.0%
+  Epoch  5/15  loss=0.6439  train_acc=75.8%
+  Epoch  6/15  loss=0.6063  train_acc=76.9%
+  Epoch  7/15  loss=0.5286  train_acc=80.6%
+  Epoch  8/15  loss=0.4915  train_acc=81.5%
+  Epoch  9/15  loss=0.4668  train_acc=82.9%
+  Epoch 10/15  loss=0.4436  train_acc=83.7%
+  Epoch 11/15  loss=0.4181  train_acc=84.5%
+  Epoch 12/15  loss=0.3980  train_acc=85.1%
+  Epoch 13/15  loss=0.3325  train_acc=87.7%
+  Epoch 14/15  loss=0.3487  train_acc=86.9%
+  Epoch 15/15  loss=0.3380  train_acc=87.7%
+  Evaluating ViT...
+  Balanced=42.1%  Worst-class=2.1%  Overall=42.1%
+
+============================================================
+Run: Focal Loss
+
+  Training CNN...
+  Epoch  1/15  loss=0.5262  train_acc=66.6%
+  Epoch  2/15  loss=0.3283  train_acc=77.4%
+  Epoch  3/15  loss=0.2755  train_acc=81.0%
+  Epoch  4/15  loss=0.2325  train_acc=83.7%
+  Epoch  5/15  loss=0.2081  train_acc=84.9%
+  Epoch  6/15  loss=0.1728  train_acc=86.8%
+  Epoch  7/15  loss=0.1505  train_acc=87.8%
+  Epoch  8/15  loss=0.1233  train_acc=90.1%
+  Epoch  9/15  loss=0.1112  train_acc=90.6%
+  Epoch 10/15  loss=0.0936  train_acc=91.9%
+  Epoch 11/15  loss=0.0789  train_acc=92.6%
+  Epoch 12/15  loss=0.0614  train_acc=94.0%
+  Epoch 13/15  loss=0.0509  train_acc=95.1%
+  Epoch 14/15  loss=0.0444  train_acc=95.5%
+  Epoch 15/15  loss=0.0351  train_acc=96.2%
+  Evaluating CNN...
+  Balanced=52.3%  Worst-class=7.3%  Overall=52.3%
+
+  Training ViT...
+  Epoch  1/15  loss=0.6063  train_acc=60.6%
+  Epoch  2/15  loss=0.4628  train_acc=67.4%
+  Epoch  3/15  loss=0.3999  train_acc=71.3%
+  Epoch  4/15  loss=0.3702  train_acc=73.3%
+  Epoch  5/15  loss=0.3319  train_acc=75.2%
+  Epoch  6/15  loss=0.3159  train_acc=76.1%
+  Epoch  7/15  loss=0.3042  train_acc=76.9%
+  Epoch  8/15  loss=0.2834  train_acc=78.5%
+  Epoch  9/15  loss=0.2723  train_acc=78.9%
+  Epoch 10/15  loss=0.2581  train_acc=79.4%
+  Epoch 11/15  loss=0.2435  train_acc=81.0%
+  Epoch 12/15  loss=0.2282  train_acc=81.4%
+  Epoch 13/15  loss=0.2167  train_acc=82.2%
+  Epoch 14/15  loss=0.2131  train_acc=82.6%
+  Epoch 15/15  loss=0.1919  train_acc=83.7%
+  Evaluating ViT...
+  Balanced=45.0%  Worst-class=2.1%  Overall=45.0%
+
+========================================================================
+  CNN — Per-Class Accuracy (sorted head to tail)
+========================================================================
+  Class        N_train    Baseline (CE)    Weighted CE      Oversampling     Foc
+al Loss
+  --------------------------------------------------------------------
+  airplane        5000             90.2%           83.5%           89.4%
+   91.9%
+  auto            2500             92.5%           86.6%           88.3%
+   94.5%
+  bird            1250             77.2%           46.6%           79.1%
+   71.5%
+  cat              500             65.9%           72.9%           50.2%
+   46.8%
+  deer             250             41.4%           68.1%           34.5%
+   46.7%
+  dog               50              6.1%            5.2%            4.2%
+    7.6%
+  frog              25              3.6%            9.4%            2.4%
+    7.3%
+  --------------------------------------------------------------------
+  Balanced Acc     ---             53.8%           53.2%           49.7%
+   52.3%
+  Worst Class      ---              3.6%            5.2%            2.4%
+    7.3%
+  Overall Acc      ---             53.8%           53.2%           49.7%
+   52.3%
+========================================================================
+
+========================================================================
+  ViT — Per-Class Accuracy (sorted head to tail)
+========================================================================
+  Class        N_train    Baseline (CE)    Weighted CE      Oversampling     Foc
+al Loss
+  --------------------------------------------------------------------
+  airplane        5000             89.9%           73.0%           71.4%
+   87.8%
+  auto            2500             83.5%           74.5%           93.8%
+   86.6%
+  bird            1250             63.2%           24.8%           46.7%
+   47.0%
+  cat              500             46.0%           43.7%           29.8%
+   43.8%
+  deer             250             21.7%           42.5%           41.1%
+   44.6%
+  dog               50              0.6%           11.5%            9.7%
+    3.0%
+  frog              25              0.1%           33.9%            2.1%
+    2.1%
+  --------------------------------------------------------------------
+  Balanced Acc     ---             43.6%           43.4%           42.1%
+   45.0%
+  Worst Class      ---              0.1%           11.5%            2.1%
+    2.1%
+  Overall Acc      ---             43.6%           43.4%           42.1%
+   45.0%
+========================================================================
+
+======================================================================
+  COMBINED SUMMARY (all runs x models)
+======================================================================
+  Run                 Model    Balanced Acc   Worst Class   Overall Acc
+  -----------------------------------------------------------------
+  Baseline (CE)       CNN            53.8%          3.6%         53.8%
+  Baseline (CE)       ViT            43.6%          0.1%         43.6%
+  Weighted CE         CNN            53.2%          5.2%         53.2%
+  Weighted CE         ViT            43.4%         11.5%         43.4%
+  Oversampling        CNN            49.7%          2.4%         49.7%
+  Oversampling        ViT            42.1%          2.1%         42.1%
+  Focal Loss          CNN            52.3%          7.3%         52.3%
+  Focal Loss          ViT            45.0%          2.1%         45.0%
+======================================================================
+
+============================================================
+KEY FINDINGS TO REPORT:
+============================================================
+
+Baseline worst-class accuracy:
+  CNN: 3.6%  |  ViT: 0.1%
+  (If this is near 0%, the model has completely collapsed on the tail)
+
+Weighted CE improvement (worst-class):
+  CNN: 3.6% -> 5.2%  (+1.6%)
+  ViT: 0.1% -> 11.5%  (+11.4%)
+
+Oversampling improvement (worst-class):
+  CNN: 3.6% -> 2.4%  (-1.2%)
+  ViT: 0.1% -> 2.1%  (+2.0%)
+
+Focal Loss improvement (worst-class):
+  CNN: 3.6% -> 7.3%  (+3.7%)
+  ViT: 0.1% -> 2.1%  (+2.0%)
+
+Done!
+root@vultr:~/resp_assignment#
