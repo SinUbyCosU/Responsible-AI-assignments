@@ -19,3 +19,4 @@ env/
 
 # Local run logs and status files
 *.log
+chat_log.jsonl
