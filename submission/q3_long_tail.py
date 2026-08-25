@@ -40,7 +40,6 @@ Metrics:
   worst_class    : min per-class accuracy (the tail class floor)
   overall_acc    : standard accuracy (for reference; inflated by head classes)
 """
-
 import random
 import numpy as np
 import torch
