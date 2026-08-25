@@ -1,0 +1,21 @@
+# Local datasets downloaded by the experiments
+mnist_data/
+cifar10_data/
+
+# Generated explainability outputs
+q2_gradcam/
+
+# Training artifacts and local checkpoints
+*.pt
+*.pth
+*.ckpt
+
+# Python cache and local environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# Local run logs and status files
+*.log

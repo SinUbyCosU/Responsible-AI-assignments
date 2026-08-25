@@ -1,3 +1,29 @@
+# Responsible AI Assignments
+
+## Repository Layout
+
+The current submitted work is in `submission/`. Keep future assignments in their own numbered folders so each submission stays self-contained:
+
+```text
+submission/
+  assignment_1/
+    README.md
+    *.py
+  assignment_2/
+    README.md
+    *.py
+```
+
+For compatibility, the existing Assignment 1 files remain directly inside `submission/`. New assignments should use the numbered-folder layout above. From the repository root, add the new folder, commit it, and push with:
+
+```powershell
+git add submission/assignment_2
+git commit -m "Add responsible AI assignment 2"
+git push
+```
+
+The experiment report for the current work follows below.
+
 # Responsible AI Assignment — Running Report
 
 This document is updated incrementally as each experiment is completed.
